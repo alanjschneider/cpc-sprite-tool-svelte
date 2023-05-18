@@ -1,11 +1,12 @@
 <script lang="ts">
+  import { type Color } from "constants/colors";
   import Output from "./components/Output.svelte";
   import Canvas from "./components/Canvas.svelte";
   import Palette from "./components/Palette.svelte";
 
   let canvas = null;
   let value = "";
-  let actualColor;
+  let actualColor: Color;
 
   function handleColorChange(event: CustomEvent) {
     actualColor = event.detail.color;

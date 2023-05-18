@@ -1,6 +1,6 @@
 <script>
-  import COLORS from "../constants/colors";
-  import { bindKey } from "../services/keyboard";
+  import COLORS from "constants/colors";
+  import { bindKey } from "services/keyboard";
   import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();

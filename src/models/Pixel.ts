@@ -1,5 +1,5 @@
-import { type Point } from '../services/mouse';
-import { type Color } from '../constants/colors';
+import { type Point } from 'services/mouse';
+import { type Color } from 'constants/colors';
 
 export default class Pixel {
   private x: number;

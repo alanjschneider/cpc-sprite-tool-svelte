@@ -1,10 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { FORMAT_8X8 } from "../constants/ouputFormats";
-  import { bindClick, MOUSE_BUTTONS, type Point } from "../services/mouse";
-  import { toHex } from "../services/utils";
-  import COLORS, { type Color } from "../constants/colors";
-  import Pixel from "../models/Pixel.js";
+  import { FORMAT_8X8 } from "constants/ouputFormats";
+  import { bindClick, MOUSE_BUTTONS, type Point } from "services/mouse";
+  import { toHex } from "services/utils";
+  import COLORS from "constants/colors";
+  import Pixel from "models/Pixel.js";
 
   const CANVAS_SIZE = 600;
   const PIXEL_GAP = 1;
@@ -89,7 +89,7 @@
     return null;
   }
 
-  function getColorCodes(sprite: Pixel[]) {
+  function getColorCodes(sprite: Pixel[]): string[] {
     const colorCodes = [];
 
     for (let i = 0; i < sprite.length; i += 4) {

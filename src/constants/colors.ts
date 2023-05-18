@@ -1,3 +1,8 @@
+export type Color = {
+  code: string,
+  bitmask: number,
+};
+
 const COLORS = {
   BLUE: { code: "#000080", bitmask: 0b00000000 },
   YELLOW: { code: "#FFFF00", bitmask: 0b00010000 },

@@ -1,9 +1,9 @@
-<script>
+<script lang="ts">
   import { onMount } from "svelte";
   import { FORMAT_8X8 } from "../constants/ouputFormats";
-  import { bindClick, LEFT_CLICK } from "../services/mouse";
+  import { bindClick, MOUSE_BUTTONS, type Point } from "../services/mouse";
   import { toHex } from "../services/utils";
-  import COLORS from "../constants/colors";
+  import COLORS, { type Color } from "../constants/colors";
   import Pixel from "../models/Pixel.js";
 
   const CANVAS_SIZE = 600;
@@ -13,21 +13,21 @@
 
   export let actualColor = COLORS.BLUE;
 
-  let canvas;
-  let ctx;
-  let sprite;
+  let canvas: HTMLCanvasElement;
+  let ctx: CanvasRenderingContext2D;
+  let sprite: Pixel[];
 
   onMount(main);
 
   function main() {
-    bindClick(LEFT_CLICK, (point, target) => {
+    bindClick(MOUSE_BUTTONS.LEFT, (point: Point, target: HTMLElement) => {
       if (target !== canvas) return;
 
       const pixel = getPixelByPoint(point, sprite);
 
       if (pixel === null) return;
 
-      pixel.color = actualColor;
+      pixel.setColor(actualColor);
 
       clearContext(ctx);
       renderSprite(ctx, sprite);
@@ -54,12 +54,12 @@
     return colorCodesToAssembly(colorCodes, "sprite", FORMAT_8X8);
   }
 
-  function clearContext(ctx) {
+  function clearContext(ctx: CanvasRenderingContext2D) {
     ctx.fillStyle = "#000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 
-  function renderSprite(ctx, sprite) {
+  function renderSprite(ctx: CanvasRenderingContext2D, sprite: Pixel[]) {
     for (let i = 0; i < sprite.length; i++) {
       const pixel = sprite[i];
       pixel.render(ctx);
@@ -80,7 +80,7 @@
     return sprite;
   }
 
-  function getPixelByPoint(point, sprite) {
+  function getPixelByPoint(point: Point, sprite: Pixel[]) {
     for (let i = 0; i < sprite.length; i++) {
       const pixel = sprite[i];
       if (pixel.intersectsWithPoint(point)) return pixel;
@@ -89,16 +89,16 @@
     return null;
   }
 
-  function getColorCodes(sprite) {
+  function getColorCodes(sprite: Pixel[]) {
     const colorCodes = [];
 
     for (let i = 0; i < sprite.length; i += 4) {
       let colorCode = 0;
 
-      colorCode += sprite[i].color.bitmask << 3;
-      colorCode += sprite[i + 1].color.bitmask << 2;
-      colorCode += sprite[i + 2].color.bitmask << 1;
-      colorCode += sprite[i + 3].color.bitmask;
+      colorCode += sprite[i].getColor().bitmask << 3;
+      colorCode += sprite[i + 1].getColor().bitmask << 2;
+      colorCode += sprite[i + 2].getColor().bitmask << 1;
+      colorCode += sprite[i + 3].getColor().bitmask;
 
       colorCodes.push(toHex(colorCode));
     }
@@ -106,7 +106,11 @@
     return colorCodes;
   }
 
-  function colorCodesToAssembly(colorCodes, spriteName, format) {
+  function colorCodesToAssembly(
+    colorCodes: string[],
+    spriteName: string,
+    format: string
+  ) {
     let assembly = format.replace("name", spriteName);
 
     for (let i = 0; i < colorCodes.length; i++) {

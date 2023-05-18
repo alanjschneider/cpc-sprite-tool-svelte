@@ -1,5 +1,5 @@
-<script>
-  export let value;
+<script lang="ts">
+  export let value: string;
 </script>
 
 <textarea cols="32" rows="16">{value}</textarea>

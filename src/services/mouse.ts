@@ -1,10 +1,17 @@
-export const LEFT_CLICK = 0;
-export const MIDDLE_CLICK = 0;
-export const RIGHT_CLICK = 0;
+export enum MOUSE_BUTTONS {
+  LEFT,
+  MIDDLE,
+  RIGHT
+};
+
+export interface Point {
+  x: number,
+  y: number
+};
 
 const binds = {};
 
-export function bindClick(button, callback) {
+export function bindClick(button: MOUSE_BUTTONS, callback: Function): void {
   if (binds[button]) {
     return binds[button].callbacks.push(callback);
   }
@@ -15,7 +22,7 @@ export function bindClick(button, callback) {
   };
 }
 
-function handleClickDown(e) {
+function handleClickDown(e: MouseEvent) {
   const { button } = e;
 
   if (!binds[button]) return;
@@ -23,14 +30,14 @@ function handleClickDown(e) {
   binds[button].pressed = false;
 }
 
-function handleClickUp(e) {
+function handleClickUp(e: MouseEvent): void {
   const { button } = e;
 
   if (!binds[button] || binds[button].pressed) return;
 
   const point = { x: e.offsetX, y: e.offsetY };
 
-  binds[button].callbacks.forEach((callback) =>
+  binds[button].callbacks.forEach((callback: Function) =>
     callback.call(null, point, e.target)
   );
   binds[button].pressed = true;

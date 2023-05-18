@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Output from "./components/Output.svelte";
   import Canvas from "./components/Canvas.svelte";
   import Palette from "./components/Palette.svelte";
@@ -7,16 +7,16 @@
   let value = "";
   let actualColor;
 
-  function handleColorChange(event) {
+  function handleColorChange(event: CustomEvent) {
     actualColor = event.detail.color;
   }
 
-  function generateCode() {
+  function generateCode(): void {
     if (canvas === null) return;
     value = canvas.getAssemblySprite();
   }
 
-  function clearSprite() {
+  function clearSprite(): void {
     if (canvas === null) return;
     canvas.clearCanvas();
   }

@@ -1,6 +1,6 @@
 const binds = {};
 
-export function bindKey(key, callback) {
+export function bindKey(key: string, callback: Function): void {
   if (binds[key]) return;
 
   binds[key] = {
@@ -9,7 +9,7 @@ export function bindKey(key, callback) {
   };
 }
 
-function handleKeyUp(event) {
+function handleKeyUp(event: KeyboardEvent) {
   const { key } = event;
 
   if (!binds[key]) return;
@@ -17,7 +17,7 @@ function handleKeyUp(event) {
   binds[key].pressed = false;
 }
 
-function handleKeyDown(event) {
+function handleKeyDown(event: KeyboardEvent) {
   const { key } = event;
 
   if (!binds[key] || binds[key].pressed) return;

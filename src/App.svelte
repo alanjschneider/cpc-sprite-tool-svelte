@@ -21,6 +21,10 @@
     if (canvas === null) return;
     canvas.clearCanvas();
   }
+
+  function copyCode(event: CustomEvent): void {
+    navigator.clipboard.writeText(event.detail);
+  }
 </script>
 
 <div id="main">
@@ -29,7 +33,7 @@
     <Palette on:colorChange={handleColorChange} />
     <button on:click={clearSprite}>Clear sprite</button>
     <button on:click={generateCode}>Generate code</button>
-    <Output {value} />
+    <Output {value} on:copy={copyCode} />
   </div>
 </div>
 

@@ -8,7 +8,7 @@
 
   const CANVAS_SIZE = 600;
   const PIXEL_GAP = 1;
-  const SPRITE_SIZE_PX = 8;
+  const SPRITE_SIZE_PX = 16;
   const PIXEL_SIZE = CANVAS_SIZE / SPRITE_SIZE_PX;
 
   export let actualColor = COLORS.BLUE;

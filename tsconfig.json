@@ -9,7 +9,7 @@
       "constants": ["constants/*"],
       "components": ["components/*"],
       "models": ["models/*"],
-      "services": ["services/*"],
+      "services": ["services/*"]
     }
   },
   

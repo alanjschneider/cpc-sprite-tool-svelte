@@ -1,8 +1,22 @@
 <script lang="ts">
+  import { createEventDispatcher } from "svelte";
+  import copyIcon from "../icons/copy.svg";
+  import IconButton from "./IconButton.svelte";
+
   export let value: string;
+  const dispatch = createEventDispatcher();
+
+  function handleClick() {
+    dispatch("copy", value);
+  }
 </script>
 
-<textarea cols="32" rows="16">{value}</textarea>
+<div id="container">
+  <textarea cols="32" rows="16" readonly>{value}</textarea>
+  <div id="overlay">
+    <IconButton icon={copyIcon} on:click={handleClick} />
+  </div>
+</div>
 
 <style>
   @font-face {
@@ -12,7 +26,18 @@
     font-style: normal;
   }
 
+  #container {
+    position: relative;
+  }
+
+  #overlay {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+  }
+
   textarea {
+    cursor: default;
     background-color: #000080;
     color: #ff0;
     resize: none;
@@ -20,5 +45,9 @@
     font-family: "amstrad";
     border: none;
     padding: 16px;
+  }
+
+  textarea:active {
+    outline: none;
   }
 </style>

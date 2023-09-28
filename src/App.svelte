@@ -28,8 +28,8 @@
   <Canvas bind:this={canvas} {actualColor} />
   <div id="right">
     <Palette bind:color={actualColor} />
-    <Button on:click={clearSprite} value="Clear sprite" />
-    <Button on:click={generateCode} value="Generate code" />
+    <Button on:click={clearSprite}>Clear sprite</Button>
+    <Button on:click={generateCode}>Generate code</Button>
     <Output {value} on:copy={copyCode} />
   </div>
 </div>

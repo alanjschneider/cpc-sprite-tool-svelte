@@ -2,6 +2,8 @@
   import { createEventDispatcher } from "svelte";
   import copyIcon from "../icons/copy.svg";
   import IconButton from "./IconButton.svelte";
+  import Button from "./Button.svelte";
+  import CopyIcon from "./icons/CopyIcon.svelte";
 
   export let value: string;
   const dispatch = createEventDispatcher();
@@ -14,7 +16,8 @@
 <div id="container">
   <textarea cols="32" rows="16" readonly>{value}</textarea>
   <div id="overlay">
-    <IconButton icon={copyIcon} on:click={handleClick} />
+    <Button on:click={handleClick}><CopyIcon slot="icon" /></Button>
+    <!-- <IconButton icon={copyIcon} on:click={handleClick} /> -->
   </div>
 </div>
 

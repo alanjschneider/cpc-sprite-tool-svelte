@@ -1,41 +1,37 @@
-<script>
+<script lang="ts">
   import COLORS from "constants/colors";
   import { bindKey } from "services/keyboard";
-  import { createEventDispatcher } from "svelte";
+  import { type Color } from "constants/colors";
 
-  const dispatch = createEventDispatcher();
+  export let color: Color = COLORS.BLUE;
   let selected = 0; // BLUE
 
-  // Sends to listeners a default value
-  dispatch("colorChange", { color: COLORS.BLUE });
-
   function handleColorChange() {
-    const color = getColorByValue(this.value);
-    dispatch("colorChange", { color });
+    color = getColorByValue(this.value);
   }
 
   // Color selection shortcuts
   bindKey("1", () => {
     selected = 0;
-    dispatch("colorChange", { color: COLORS.BLUE });
+    color = COLORS.BLUE;
   });
 
   bindKey("2", () => {
     selected = 1;
-    dispatch("colorChange", { color: COLORS.YELLOW });
+    color = COLORS.YELLOW;
   });
 
   bindKey("3", () => {
     selected = 2;
-    dispatch("colorChange", { color: COLORS.CYAN });
+    color = COLORS.CYAN;
   });
 
   bindKey("4", () => {
     selected = 3;
-    dispatch("colorChange", { color: COLORS.RED });
+    color = COLORS.RED;
   });
 
-  function getColorByValue(number) {
+  function getColorByValue(number: number) {
     return [COLORS.BLUE, COLORS.YELLOW, COLORS.CYAN, COLORS.RED][number];
   }
 </script>

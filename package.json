@@ -2,11 +2,11 @@
   "name": "cpc-sprite-drawer-svelte",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
   "scripts": {
     "start": "sirv public",
     "dev": "rollup -c -w",
-    "build": "rollup -c",
+    "build": "npm run prebuild && rollup -c",
+    "prebuild": "node ./scripts/checkNodeVersion",
     "check": "svelte-check"
   },
   "keywords": [],

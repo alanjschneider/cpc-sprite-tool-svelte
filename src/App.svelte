@@ -3,14 +3,11 @@
   import Output from "./components/Output.svelte";
   import Canvas from "./components/Canvas.svelte";
   import Palette from "./components/Palette.svelte";
+  import Button from "./components/Button.svelte";
 
   let canvas = null;
   let value = "";
   let actualColor: Color;
-
-  function handleColorChange(event: CustomEvent) {
-    actualColor = event.detail.color;
-  }
 
   function generateCode(): void {
     if (canvas === null) return;
@@ -30,9 +27,9 @@
 <div id="main">
   <Canvas bind:this={canvas} {actualColor} />
   <div id="right">
-    <Palette on:colorChange={handleColorChange} />
-    <button on:click={clearSprite}>Clear sprite</button>
-    <button on:click={generateCode}>Generate code</button>
+    <Palette bind:color={actualColor} />
+    <Button on:click={clearSprite} value="Clear sprite" />
+    <Button on:click={generateCode} value="Generate code" />
     <Output {value} on:copy={copyCode} />
   </div>
 </div>

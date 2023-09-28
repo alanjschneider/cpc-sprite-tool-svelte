@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { FORMAT_8X8 } from "constants/ouputFormats";
+  import { FORMAT_8X8, FORMAT_4X4, FORMAT_16X16 } from "constants/ouputFormats";
   import { bindClick, MOUSE_BUTTONS, type Point } from "services/mouse";
   import { toHex } from "services/utils";
   import COLORS from "constants/colors";
@@ -8,9 +8,14 @@
 
   const CANVAS_SIZE = 600;
   const PIXEL_GAP = 1;
-  const SPRITE_SIZE_PX = 8;
-  const PIXEL_SIZE = CANVAS_SIZE / SPRITE_SIZE_PX;
 
+  const sizes = [
+    { spriteSize: 4, pixelSize: CANVAS_SIZE / 4, format: FORMAT_4X4 },
+    { spriteSize: 8, pixelSize: CANVAS_SIZE / 8, format: FORMAT_8X8 },
+    { spriteSize: 16, pixelSize: CANVAS_SIZE / 16, format: FORMAT_16X16 },
+  ];
+
+  export let size = 1;
   export let actualColor = COLORS.BLUE;
 
   let canvas: HTMLCanvasElement;
@@ -18,6 +23,9 @@
   let sprite: Pixel[];
 
   onMount(main);
+
+  // Using (size !== undefined) only to simulate a $derived
+  $: ctx && size !== undefined && clearCanvas();
 
   function main() {
     bindClick(MOUSE_BUTTONS.LEFT, (point: Point, target: HTMLElement) => {
@@ -37,10 +45,7 @@
     canvas.height = CANVAS_SIZE;
 
     ctx = canvas.getContext("2d");
-    sprite = createEmptySprite();
-
-    clearContext(ctx);
-    renderSprite(ctx, sprite);
+    clearCanvas();
   }
 
   export function clearCanvas() {
@@ -51,7 +56,7 @@
 
   export function getAssemblySprite() {
     const colorCodes = getColorCodes(sprite);
-    return colorCodesToAssembly(colorCodes, "sprite", FORMAT_8X8);
+    return colorCodesToAssembly(colorCodes, "sprite", sizes[size].format);
   }
 
   function clearContext(ctx: CanvasRenderingContext2D) {
@@ -68,12 +73,18 @@
 
   function createEmptySprite() {
     const sprite = [];
-    const PIXEL_COUNT = SPRITE_SIZE_PX * SPRITE_SIZE_PX;
+    const PIXEL_COUNT = sizes[size].spriteSize * sizes[size].spriteSize;
 
     for (let i = 0; i < PIXEL_COUNT; i++) {
-      let x = (i % SPRITE_SIZE_PX) * PIXEL_SIZE;
-      let y = ~~(i / SPRITE_SIZE_PX) * PIXEL_SIZE;
-      const pixel = new Pixel(x, y, PIXEL_SIZE, COLORS.BLUE, PIXEL_GAP);
+      let x = (i % sizes[size].spriteSize) * sizes[size].pixelSize;
+      let y = ~~(i / sizes[size].spriteSize) * sizes[size].pixelSize;
+      const pixel = new Pixel(
+        x,
+        y,
+        sizes[size].pixelSize,
+        COLORS.BLUE,
+        PIXEL_GAP
+      );
       sprite.push(pixel);
     }
 

@@ -4,10 +4,19 @@
   import Canvas from "./components/Canvas.svelte";
   import Palette from "./components/Palette.svelte";
   import Button from "./components/Button.svelte";
+  import Select from "./components/Select.svelte";
 
   let canvas = null;
   let value = "";
   let actualColor: Color;
+
+  const options = [
+    { value: 0, text: "4x4" },
+    { value: 1, text: "8x8", selected: true },
+    { value: 2, text: "16x16" },
+  ];
+
+  let size = options[1].value;
 
   function generateCode(): void {
     if (canvas === null) return;
@@ -25,7 +34,10 @@
 </script>
 
 <div id="main">
-  <Canvas bind:this={canvas} {actualColor} />
+  <div id="left">
+    <Select bind:value={size} {options} label="Sprite size" />
+    <Canvas bind:this={canvas} bind:size {actualColor} />
+  </div>
   <div id="right">
     <Palette bind:color={actualColor} />
     <Button on:click={clearSprite}>Clear sprite</Button>

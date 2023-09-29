@@ -2,6 +2,9 @@
   <span>
     <slot name="icon" />
   </span>
+  {#if $$slots.icon && $$slots.default}
+    <div id="spacer" />
+  {/if}
   <span>
     <slot />
   </span>
@@ -23,5 +26,9 @@
 
   button:active {
     transform: scale(0.98);
+  }
+
+  #spacer {
+    padding-left: 4px;
   }
 </style>

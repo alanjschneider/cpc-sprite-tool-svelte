@@ -18,7 +18,7 @@
     padding: 7px;
     font-size: 20px;
     color: #ff0;
-    border-radius: 2px;
+    border-radius: 6px;
   }
 
   button:active {

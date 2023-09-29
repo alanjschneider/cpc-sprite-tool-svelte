@@ -3,8 +3,9 @@
   import { FORMAT_8X8, FORMAT_4X4, FORMAT_16X16 } from "constants/ouputFormats";
   import { bindClick, MOUSE_BUTTONS, type Point } from "services/mouse";
   import { toHex } from "services/utils";
-  import COLORS from "constants/colors";
+  import COLORS, { type Color } from "constants/colors";
   import Pixel from "models/Pixel.js";
+  import { bindKey } from "services/keyboard";
 
   const CANVAS_SIZE = 600;
   const PIXEL_GAP = 1;
@@ -18,6 +19,8 @@
   export let size = 1;
   export let actualColor = COLORS.BLUE;
 
+  const HISTORY_LIMIT = 64;
+  const history: Color[][] = [];
   let canvas: HTMLCanvasElement;
   let ctx: CanvasRenderingContext2D;
   let sprite: Pixel[];
@@ -35,10 +38,15 @@
 
       if (pixel === null) return;
 
+      save(); // Save before pixel been modified
       pixel.setColor(actualColor);
 
       clearContext(ctx);
       renderSprite(ctx, sprite);
+    });
+
+    bindKey("z", () => {
+      undo();
     });
 
     canvas.width = CANVAS_SIZE;
@@ -129,6 +137,34 @@
     }
 
     return assembly;
+  }
+
+  function save() {
+    if (history.length >= HISTORY_LIMIT) return;
+
+    const color: Color[] = [];
+
+    for (const pixel of sprite) {
+      color.push(pixel.getColor());
+    }
+
+    history.push(color);
+  }
+
+  function undo() {
+    const last = history.pop();
+
+    if (!last) return;
+
+    for (let i = 0; i < last.length; i++) {
+      const color: Color = last[i];
+      const pixel: Pixel = sprite[i];
+
+      pixel.setColor(color);
+    }
+
+    clearContext(ctx);
+    renderSprite(ctx, sprite);
   }
 </script>
 

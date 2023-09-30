@@ -1,13 +1,13 @@
 export enum MOUSE_BUTTONS {
   LEFT,
   MIDDLE,
-  RIGHT
-};
+  RIGHT,
+}
 
 export interface Point {
-  x: number,
-  y: number
-};
+  x: number;
+  y: number;
+}
 
 const binds = {};
 

@@ -6,9 +6,7 @@
   export let color: Color = COLORS.BLUE;
   let selected = 0; // BLUE
 
-  function handleColorChange() {
-    color = getColorByValue(this.value);
-  }
+  $: color = getColorByValue(selected);
 
   // Color selection shortcuts
   bindKey("1", () => {
@@ -34,45 +32,44 @@
   function getColorByValue(number: number) {
     return [COLORS.BLUE, COLORS.YELLOW, COLORS.CYAN, COLORS.RED][number];
   }
+
+  // El problema del click en movimiento es porque se dispara el evento cuando ocurre un mouseup
+  // Ademas en Firefox se comporta de manera distinta que en Chrome.
 </script>
 
 <div>
-  <label id="blue" class:selected={selected === 0}>
-    <input
-      type="radio"
-      name="selectedValue"
-      on:click={handleColorChange}
-      bind:group={selected}
-      value={0}
-    />
-  </label>
-  <label id="yellow" class:selected={selected === 1}>
-    <input
-      type="radio"
-      name="selectedValue"
-      on:click={handleColorChange}
-      bind:group={selected}
-      value={1}
-    />
-  </label>
-  <label id="cyan" class:selected={selected === 2}>
-    <input
-      type="radio"
-      name="selectedValue"
-      bind:group={selected}
-      on:click={handleColorChange}
-      value={2}
-    />
-  </label>
-  <label id="red" class:selected={selected === 3}>
-    <input
-      type="radio"
-      name="selectedValue"
-      on:click={handleColorChange}
-      bind:group={selected}
-      value={3}
-    />
-  </label>
+  <label for="blueradio" id="blue" class:selected={selected === 0} />
+  <input
+    id="blueradio"
+    type="radio"
+    name="selectedValue"
+    bind:group={selected}
+    value={0}
+  />
+  <label for="yellowradio" id="yellow" class:selected={selected === 1} />
+  <input
+    id="yellowradio"
+    type="radio"
+    name="selectedValue"
+    bind:group={selected}
+    value={1}
+  />
+  <label for="cyanradio" id="cyan" class:selected={selected === 2} />
+  <input
+    id="cyanradio"
+    type="radio"
+    name="selectedValue"
+    bind:group={selected}
+    value={2}
+  />
+  <label for="redradio" id="red" class:selected={selected === 3} />
+  <input
+    id="redradio"
+    type="radio"
+    name="selectedValue"
+    bind:group={selected}
+    value={3}
+  />
 </div>
 
 <style>

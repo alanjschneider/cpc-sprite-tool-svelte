@@ -37,6 +37,7 @@
       const pixel = getPixelByPoint(point, sprite);
 
       if (pixel === null) return;
+      if (pixel.getColor().code === actualColor.code) return;
 
       save(); // Save before pixel been modified
       pixel.setColor(actualColor);
